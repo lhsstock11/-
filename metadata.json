@@ -1,0 +1,6 @@
+{
+  "name": "나만의 영양",
+  "description": "포레스트 데일리 영양 맞춤형 구독 건강기능식품 자사 쇼핑몰",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
