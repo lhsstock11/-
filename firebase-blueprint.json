@@ -1,0 +1,13 @@
+{
+  "collections": {
+    "users": {
+      "schema": {
+        "name": "string",
+        "email": "string",
+        "surveyAnswers": "object?",
+        "subscriptions": "array",
+        "role": "string?"
+      }
+    }
+  }
+}

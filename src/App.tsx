@@ -10,8 +10,12 @@ import DetailViewModal from "./components/DetailViewModal";
 import CartView from "./components/CartView";
 import CheckoutView from "./components/CheckoutView";
 import MyPageView from "./components/MyPageView";
+import AdminDashboardView from "./components/AdminDashboardView";
 import AuthModal from "./components/AuthModal";
 import NotificationToast, { ToastMessage } from "./components/NotificationToast";
+import { auth, db } from "./lib/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewType | "checkout">("home");
@@ -57,6 +61,82 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem("forest_cart_items", JSON.stringify(cartItems));
   }, [cartItems]);
+
+  // Firebase Realtime State Syncer
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        try {
+          const userDocRef = doc(db, "users", firebaseUser.uid);
+          const snap = await getDoc(userDocRef);
+          
+          const userEmail = firebaseUser.email || "";
+          const isTargetAdmin = userEmail.toLowerCase() === "lhsstock11@gmail.com";
+
+          if (snap.exists()) {
+            const data = snap.data();
+            const finalRole = isTargetAdmin ? "admin" : (data.role || "user");
+
+            setUserState({
+              isLoggedIn: true,
+              name: data.name || "회원",
+              email: data.email || userEmail || "",
+              surveyAnswers: data.surveyAnswers || null,
+              subscriptions: data.subscriptions || [],
+              role: finalRole
+            });
+
+            if (data.role !== finalRole) {
+              await setDoc(userDocRef, { role: finalRole }, { merge: true });
+            }
+          } else {
+            const finalRole = isTargetAdmin ? "admin" : "user";
+            // Initiate db with placeholder values from current UI state
+            await setDoc(userDocRef, {
+              name: userState.name || "이희선",
+              email: userEmail || userState.email || "heesun@example.com",
+              surveyAnswers: userState.surveyAnswers,
+              subscriptions: userState.subscriptions,
+              role: finalRole
+            });
+          }
+        } catch (e) {
+          console.error("Firestore user profile fetch error:", e);
+        }
+      } else {
+        const explicitlyLoggedOut = localStorage.getItem("forest_explicit_logout") === "true";
+        if (explicitlyLoggedOut) {
+          setUserState({
+            isLoggedIn: false,
+            name: "",
+            email: "",
+            surveyAnswers: null,
+            subscriptions: [],
+            role: "user"
+          });
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Save changes back to Firestore (Cloud Database Synchronization)
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (user && userState.isLoggedIn) {
+      const userDocRef = doc(db, "users", user.uid);
+      setDoc(userDocRef, {
+        name: userState.name,
+        email: userState.email,
+        surveyAnswers: userState.surveyAnswers,
+        subscriptions: userState.subscriptions,
+        role: userState.role || "user"
+      }, { merge: true }).catch((err) => {
+        console.error("Error saving profile to Firestore:", err);
+      });
+    }
+  }, [userState]);
 
   // Toast trigger utility
   const showToast = (text: string, type: "success" | "info" | "warning" = "info") => {
@@ -133,6 +213,7 @@ export default function App() {
 
   // 5. Auth handlers
   const handleLoginSuccess = (name: string, email: string) => {
+    localStorage.removeItem("forest_explicit_logout");
     setUserState((prev) => ({
       ...prev,
       isLoggedIn: true,
@@ -142,7 +223,13 @@ export default function App() {
     showToast(`${name} 님, 환영합니다! 포레스트 케어로 안전 연결되었습니다.`, "success");
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error("Firebase SignOut error:", e);
+    }
+    localStorage.setItem("forest_explicit_logout", "true");
     setUserState({
       isLoggedIn: false,
       name: "",
@@ -253,6 +340,7 @@ export default function App() {
         cartCount={cartItems.reduce((acc, curr) => acc + curr.quantity, 0)}
         isLoggedIn={userState.isLoggedIn}
         userName={userState.name}
+        userRole={userState.role}
         onOpenAuth={() => setAuthModalOpen(true)}
         onLogout={handleLogout}
       />
@@ -320,6 +408,14 @@ export default function App() {
             onUpdateSubscriptionCycle={handleUpdateSubscriptionCycle}
             onResetSurvey={handleResetSurvey}
             setCurrentView={(view) => setCurrentView(view)}
+          />
+        )}
+
+        {currentView === "admin" && (
+          <AdminDashboardView
+            userState={userState}
+            onBackToApp={() => setCurrentView("home")}
+            showToast={showToast}
           />
         )}
       </main>

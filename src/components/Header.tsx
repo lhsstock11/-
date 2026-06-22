@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Leaf, ShoppingCart, User, Menu, X, LogOut, Award } from "lucide-react";
+import { Leaf, ShoppingCart, User, Menu, X, LogOut, Award, Shield } from "lucide-react";
 import { ViewType } from "../types";
 
 interface HeaderProps {
@@ -8,6 +8,7 @@ interface HeaderProps {
   cartCount: number;
   isLoggedIn: boolean;
   userName: string;
+  userRole?: string;
   onOpenAuth: () => void;
   onLogout: () => void;
 }
@@ -18,6 +19,7 @@ export default function Header({
   cartCount,
   isLoggedIn,
   userName,
+  userRole,
   onOpenAuth,
   onLogout,
 }: HeaderProps) {
@@ -101,6 +103,19 @@ export default function Header({
 
             {isLoggedIn ? (
               <div className="flex items-center gap-2 pl-2 border-l border-zinc-200">
+                {userRole === "admin" && (
+                  <button
+                    id="header-admin-btn"
+                    onClick={() => handleNavClick("admin")}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
+                      currentView === "admin"
+                        ? "bg-red-50 text-red-700 border border-red-200"
+                        : "bg-emerald-50 text-[#0F5132] hover:bg-[#0F5132]/10 border border-emerald-100"
+                    }`}
+                  >
+                    <Shield className="h-3.5 w-3.5" /> 관리자 콘솔
+                  </button>
+                )}
                 <button
                   id="header-mypage-btn"
                   onClick={() => handleNavClick("mypage")}
@@ -178,19 +193,33 @@ export default function Header({
           
           <div className="border-t border-zinc-100 pt-4 mt-2">
             {isLoggedIn ? (
-              <div className="flex items-center justify-between px-4 py-2">
-                <span className="text-sm font-semibold text-zinc-800">
-                  <span className="text-[#0F5132]">{userName}</span>님 로그인됨
-                </span>
-                <button
-                  onClick={() => {
-                    onLogout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="flex items-center gap-1.5 text-xs text-red-500 font-semibold"
-                >
-                  <LogOut className="h-4 w-4" /> 로그아웃
-                </button>
+              <div className="space-y-3">
+                <div className="flex items-center justify-between px-4 py-2">
+                  <span className="text-sm font-semibold text-zinc-800">
+                    <span className="text-[#0F5132]">{userName}</span>님 로그인됨
+                  </span>
+                  <button
+                    onClick={() => {
+                      onLogout();
+                      setMobileMenuOpen(false);
+                    }}
+                    className="flex items-center gap-1.5 text-xs text-red-500 font-semibold cursor-pointer"
+                  >
+                    <LogOut className="h-4 w-4" /> 로그아웃
+                  </button>
+                </div>
+                {userRole === "admin" && (
+                  <div className="px-4">
+                    <button
+                      onClick={() => {
+                        handleNavClick("admin");
+                      }}
+                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-black text-red-700 bg-red-50 hover:bg-red-100 border border-red-150 transition-all cursor-pointer"
+                    >
+                      <Shield className="h-3.5 w-3.5" /> 관리자 콘솔 바로가기
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <button

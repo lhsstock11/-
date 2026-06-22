@@ -55,6 +55,7 @@ export interface UserState {
   email: string;
   surveyAnswers: SurveyAnswer | null;
   subscriptions: SubscriptionSchedule[];
+  role?: "admin" | "user";
 }
 
-export type ViewType = 'home' | 'survey' | 'result' | 'shop' | 'cart' | 'mypage';
+export type ViewType = 'home' | 'survey' | 'result' | 'shop' | 'cart' | 'mypage' | 'admin';
