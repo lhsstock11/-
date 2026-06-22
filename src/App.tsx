@@ -92,12 +92,15 @@ export default function App() {
             }
           } else {
             const finalRole = isTargetAdmin ? "admin" : "user";
-            // Initiate db with placeholder values from current UI state
+            const finalName = firebaseUser.displayName || "회원";
+            const finalEmail = userEmail;
+
+            // Initiate db with correct values from current auth profile, NOT the stale state
             await setDoc(userDocRef, {
-              name: userState.name || "이희선",
-              email: userEmail || userState.email || "heesun@example.com",
-              surveyAnswers: userState.surveyAnswers,
-              subscriptions: userState.subscriptions,
+              name: finalName,
+              email: finalEmail,
+              surveyAnswers: null,
+              subscriptions: [],
               role: finalRole
             });
           }
@@ -125,7 +128,9 @@ export default function App() {
   // Save changes back to Firestore (Cloud Database Synchronization)
   useEffect(() => {
     const user = auth.currentUser;
-    if (user && userState.isLoggedIn) {
+    // Guard: Only save if user is logged in, and local state email matches firebase auth email
+    // This prevents overwriting the new user's document with stale local state during login transitions
+    if (user && userState.isLoggedIn && userState.email.toLowerCase() === user.email?.toLowerCase()) {
       const userDocRef = doc(db, "users", user.uid);
       setDoc(userDocRef, {
         name: userState.name,

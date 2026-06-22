@@ -57,7 +57,7 @@ export default function CheckoutView({
       if (!(window as any).TossPayments) {
         await new Promise<void>((resolve, reject) => {
           const script = document.createElement("script");
-          script.src = "https://js.tosspayments.com/v1/payment";
+          script.src = "https://js.tosspayments.com/v1";
           script.async = true;
           script.onload = () => resolve();
           script.onerror = () => reject(new Error("토스페이먼츠 라이브러리 스크립트 로드 실패"));
@@ -65,7 +65,7 @@ export default function CheckoutView({
         });
       }
 
-      const clientKey = "test_ck_D56min1g05NgbpK61YRL8T9d1qgY";
+      const clientKey = (import.meta as any).env?.VITE_TOSS_CLIENT_KEY || "test_ck_OALlhS41V19fNn9e7X83Ysn6wwZb";
       if ((window as any).TossPayments) {
         const tossPayments = (window as any).TossPayments(clientKey);
         const orderId = `order_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
@@ -96,7 +96,7 @@ export default function CheckoutView({
     } catch (err: any) {
       console.error("Toss Payments integration error:", err);
       setTossStatusMessage(
-        `안내: 현재 Iframe 보안 샌드박스 내부이거나 팝업 제한 상태입니다. 아래의 시뮬레이터 완료 버튼을 사용하시면 결제 완료를 가상 즉시 테스트할 수 있습니다.`
+        `안내: 현재 Iframe 보안 샌드박스 내부이거나 팝업 제한 상태입니다. 혹은 토스 테스트 키 연동 상태일 수 있습니다. 아래의 시뮬레이터 완료 버튼을 사용하시면 결제 완료를 가상 즉시 테스트할 수 있습니다.`
       );
     } finally {
       setTossLoading(false);

@@ -32,9 +32,14 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
         const credential = await createUserWithEmailAndPassword(auth, email, password);
         const user = credential.user;
 
-        // Check if this is the very first user in the system
-        const usersSnap = await getDocs(query(collection(db, "users"), limit(1)));
-        const isFirstUser = usersSnap.empty;
+        // Check if this is the very first user in the system safely
+        let isFirstUser = false;
+        try {
+          const usersSnap = await getDocs(query(collection(db, "users"), limit(1)));
+          isFirstUser = usersSnap.empty;
+        } catch (e) {
+          console.warn("Could not check if first user:", e);
+        }
         const isTargetAdmin = email.toLowerCase() === "lhsstock11@gmail.com";
         const assignedRole = (isFirstUser || isTargetAdmin) ? "admin" : "user";
 
@@ -115,8 +120,14 @@ export default function AuthModal({ isOpen, onClose, onLoginSuccess }: AuthModal
       const isTargetAdmin = finalEmail.toLowerCase() === "lhsstock11@gmail.com";
 
       if (!snap.exists()) {
-        const usersSnap = await getDocs(query(collection(db, "users"), limit(1)));
-        const isFirstUser = usersSnap.empty;
+        // Check if this is the very first user in the system safely
+        let isFirstUser = false;
+        try {
+          const usersSnap = await getDocs(query(collection(db, "users"), limit(1)));
+          isFirstUser = usersSnap.empty;
+        } catch (e) {
+          console.warn("Could not check if first user:", e);
+        }
         const assignedRole = (isFirstUser || isTargetAdmin) ? "admin" : "user";
 
         await setDoc(userDocRef, {
