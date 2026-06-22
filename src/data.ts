@@ -12,7 +12,7 @@ export const PRODUCTS_MOCK_DATA: Product[] = [
     subscriptionDiscount: 50, // 정기 구독 시 50% 할인
     rating: 4.9,
     reviewCount: 1420,
-    image: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=600",
     features: ["체내 흡수율 극대화 특허 공법", "100% 유기농 야채 유래 원료", "목넘김이 편한 9mm 미니 태블릿"],
     reviews: [
       { id: "r-1", user: "김*우", rating: 5, content: "야근이 잦아 항상 피곤했는데, 이 제품 구독해 먹고 나서 아침에 눈뜨는 게 정말 달라졌어요. 강력 추천합니다!", photo: true },
@@ -31,7 +31,7 @@ export const PRODUCTS_MOCK_DATA: Product[] = [
     subscriptionDiscount: 50,
     rating: 4.8,
     reviewCount: 890,
-    image: "https://images.unsplash.com/photo-1611926653458-09294b3142bf?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=600",
     features: ["중금속 걱정 없는 남극해 미세조류 추출", "비린내 차단 장용성 캡슐 적용", "혈행 개선 및 건조한 눈 개선 동시 기능성 인정"],
     reviews: [
       { id: "r-3", user: "정*민", rating: 5, content: "오메가3 특유의 비린내가 전혀 안 올라와서 신기해요. 매일 아침 거부감 없이 먹고 있습니다.", photo: true },
@@ -49,7 +49,7 @@ export const PRODUCTS_MOCK_DATA: Product[] = [
     subscriptionDiscount: 50,
     rating: 4.95,
     reviewCount: 2110,
-    image: "https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&q=80&w=600",
+    image: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=600",
     features: ["특허받은 4중 코팅 기술로 장까지 살아서 도달", "프리바이오틱스 부원료 함유 신바이오틱스 포뮬러", "새콤달콤한 천연 블루베리 맛 분말"],
     reviews: [
       { id: "r-4", user: "이*선", rating: 5, content: "더부룩하던 속이 편해졌어요. 화장실 가기가 너무 편해져서 삶의 질이 수직 상승했습니다.", photo: true },

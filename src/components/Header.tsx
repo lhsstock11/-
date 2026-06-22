@@ -26,7 +26,7 @@ export default function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const menuItems: { view: ViewType; label: string }[] = [
-    { view: "home", label: "숲 홈" },
+    { view: "home", label: "홈" },
     { view: "survey", label: "1:1 건강설문" },
     { view: "shop", label: "맞춤 건기식" },
     { view: "cart", label: "장바구니" },
@@ -52,11 +52,8 @@ export default function Header({
               <Leaf className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-sans font-extrabold text-[#0F5132] text-md tracking-tight leading-none">
+              <span className="font-sans font-extrabold text-[#0F5132] text-base tracking-tight leading-none">
                 나만의 영양
-              </span>
-              <span className="text-[9px] text-[#FF7A00] font-bold tracking-wider mt-0.5 flex items-center gap-0.5">
-                <Award className="h-2 w-2" /> D2C PREMIUM
               </span>
             </div>
           </div>

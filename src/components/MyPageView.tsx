@@ -77,10 +77,14 @@ export default function MyPageView({
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-12 rounded-lg bg-zinc-100 overflow-hidden border border-zinc-100 flex-shrink-0">
                           <img
-                            src={sub.productImage}
+                            src={sub.productImage || "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=200"}
                             alt={sub.productName}
                             className="h-full w-full object-cover"
                             referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=200";
+                            }}
                           />
                         </div>
                         <div className="text-left">

@@ -45,15 +45,19 @@ export default function DetailViewModal({
             
             {/* Left Column product image and badge */}
             <div className="md:col-span-5 space-y-4">
-              <div className="aspect-square w-full bg-zinc-100 rounded-2xl overflow-hidden border border-zinc-100 relative">
+              <div className="aspect-square w-full bg-zinc-100 rounded-2xl overflow-hidden border border-zinc-100 relative shadow-sm">
                 <img
                   src={product.image}
                   alt={product.name}
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=600";
+                  }}
                 />
                 
-                <span className="absolute bottom-3 left-3 bg-zinc-900/80 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-lg">
+                <span className="absolute bottom-3 left-3 bg-zinc-900/85 backdrop-blur-md text-white text-[10px] font-bold px-2.5 py-1.5 rounded-lg border border-white/10">
                   포토 보정 실사 기준
                 </span>
               </div>

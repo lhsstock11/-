@@ -8,9 +8,10 @@ interface HomeViewProps {
   onSelectProduct: (product: Product) => void;
   onAddToCart: (product: Product, isSub: boolean) => void;
   setCurrentView: (view: "survey" | "shop" | "cart" | "home" | "result" | "mypage") => void;
+  userName?: string;
 }
 
-export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView }: HomeViewProps) {
+export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView, userName }: HomeViewProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedAge, setSelectedAge] = useState<string>("all");
   const [activeSlide, setActiveSlide] = useState<number>(0);
@@ -20,7 +21,7 @@ export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView 
       title: "아침에 느끼는 건강한 변화,",
       accentTitle: "첫 맞춤 구독 최대 50% 할인",
       desc: "3분 건강설문만 참여해도 의학 자문의 분석 알고리즘이 추천하는 최적의 건기식을 무료 우체국 배송으로 아침 문 앞까지 배송해 드립니다.",
-      bgImage: "https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1200",
       cta: "1:1 맞춤 설문 진단하기",
       badge: "FIRST SUBSCRIPTION 50% OFF"
     },
@@ -28,7 +29,7 @@ export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView 
       title: "매일 섭취해야 할 최적의 정배합,",
       accentTitle: "포레스트 데일리 솔루션 출시",
       desc: "합성 보존료 0% 보장. 특허받은 생체 이용률 저온 초임계 공법으로 하루 한 팩으로 에센셜 에너지를 빈틈없이 완벽하게 섭취해 보세요.",
-      bgImage: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&q=80&w=1200",
+      bgImage: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=1200",
       cta: "베스트셀러 보러가기",
       badge: "ORGANIC RAW MATERIAL 100%"
     }
@@ -45,14 +46,18 @@ export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView 
     <div className="space-y-16 pb-16">
       
       {/* 1. Hero Promotion Banner Section with Slides */}
-      <section className="relative overflow-hidden rounded-3xl bg-zinc-950">
-        <div className="absolute inset-0 z-0 opacity-40">
+      <section className="relative overflow-hidden rounded-3xl bg-zinc-950 shadow-2xl border border-zinc-800/10">
+        <div className="absolute inset-0 z-0 opacity-50">
           <img
             src={bannerSlides[activeSlide].bgImage}
             alt="Hero Background"
             className="h-full w-full object-cover transition-all duration-1000 transform scale-105"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&q=80&w=1200";
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/85 to-transparent"></div>
         </div>
 
         <div className="relative z-10 px-6 py-16 sm:px-12 sm:py-24 lg:px-16 max-w-2xl text-left">
@@ -295,9 +300,13 @@ export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView 
                       alt={prod.name}
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=600";
+                      }}
                     />
-                    <div className="absolute top-4 left-4 bg-[#FF7A00] text-white text-xs font-black px-2.5 py-1.5 rounded-xl shadow-md tracking-wider flex items-center gap-1">
-                      <Tag className="h-3 w-3" />
+                    <div className="absolute top-4 left-4 bg-gradient-to-r from-[#FF7A00] to-[#e65c00] text-white text-xs font-black px-3 py-1.5 rounded-xl shadow-lg hover:shadow-xl transition-all tracking-wider flex items-center gap-1.5">
+                      <Tag className="h-3.5 w-3.5" />
                       구독 시 {prod.subscriptionDiscount}% 특별할인
                     </div>
                   </div>
@@ -392,26 +401,28 @@ export default function HomeView({ onSelectProduct, onAddToCart, setCurrentView 
       </section>
 
       {/* 4. Mini Banner for Custom Analysis Entry */}
-      <section className="bg-gradient-to-br from-[#0F5132] to-[#042415] rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-15 pointer-events-none bg-radial-gradient"></div>
-        <div className="space-y-4 max-w-xl text-left">
-          <span className="text-xs font-black text-[#FF7A00] tracking-widest bg-white/10 px-3 py-1.5 rounded-xl uppercase">
-            3-Minute Interactive Diagnosis
+      <section className="bg-gradient-to-br from-[#0F5132] via-[#093520] to-[#042415] rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8 border border-emerald-900/40 shadow-xl">
+        <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-emerald-500 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+        <div className="absolute -left-12 -top-12 w-48 h-48 bg-[#FF7A00] rounded-full blur-3xl opacity-10 pointer-events-none"></div>
+        
+        <div className="space-y-4 max-w-xl text-left relative z-10">
+          <span className="inline-flex items-center gap-1.5 text-xs font-black text-[#FF7A00] tracking-widest bg-white/10 px-3.5 py-1.5 rounded-full border border-white/15 backdrop-blur-md uppercase">
+            <Sparkles className="h-3 w-3 text-[#FF7A00] animate-pulse" /> 3-Minute Interactive Diagnosis
           </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight leading-snug">
             의학 통계 기준 나만의 맞춤 영양 솔루션 구상하기
           </h2>
           <p className="text-zinc-300 text-sm leading-relaxed">
-            성별, 나이, 하루 섭취량 및 불규칙 식습관을 연산하여 최적의 부위 개선 원료 매칭 데이터를 이희선 님만을 위한 결과지로 직관적으로 확인해 보세요.
+            성별, 나이, 하루 섭취량 및 불규칙 식습관을 연산하여 최적의 부위 개선 원료 매칭 데이터를 <strong className="text-white font-extrabold underline decoration-amber-500 decoration-2 underline-offset-4">{userName || "회원"} 님</strong>만을 위한 결과지로 직관적으로 확인해 보세요.
           </p>
         </div>
-        <div>
+        <div className="relative z-10 shrink-0">
           <button
             onClick={() => setCurrentView("survey")}
-            className="whitespace-nowrap flex items-center gap-2 bg-white text-[#0F5132] hover:bg-zinc-100 focus:ring-4 focus:ring-zinc-300 text-sm font-extrabold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all cursor-pointer min-h-[44px] active:scale-95 animate-pulse"
+            className="whitespace-nowrap flex items-center gap-2 bg-white text-[#0F5132] hover:bg-zinc-50 font-black text-sm px-6 py-4 rounded-xl shadow-2xl hover:shadow-emerald-950/50 transition-all duration-300 cursor-pointer min-h-[44px] active:scale-95 group"
           >
             내 맞춤 맞춤진단 시작하기
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </button>
         </div>
       </section>

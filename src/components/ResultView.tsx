@@ -367,8 +367,12 @@ export default function ResultView({
                     alt={prod.name}
                     className="h-full w-full object-cover"
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=600";
+                    }}
                   />
-                  <div className="absolute top-3 left-3 bg-[#0F5132] text-white text-[10px] font-bold px-2 py-1 rounded-lg">
+                  <div className="absolute top-3 left-3 bg-[#0F5132] text-white text-[10px] font-bold px-2.5 py-1.5 rounded-lg">
                     추천도 최상 (적격 매칭)
                   </div>
                 </div>

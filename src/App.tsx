@@ -352,6 +352,7 @@ export default function App() {
             onSelectProduct={(p) => setSelectedProduct(p)}
             onAddToCart={(p, sub) => handleAddToCart(p, sub, 4)}
             setCurrentView={(view) => setCurrentView(view)}
+            userName={userState.name}
           />
         )}
 
@@ -377,6 +378,7 @@ export default function App() {
             onSelectProduct={(p) => setSelectedProduct(p)}
             onAddToCart={(p, sub) => handleAddToCart(p, sub, 4)}
             setCurrentView={(view) => setCurrentView(view)}
+            userName={userState.name}
           />
         )}
 

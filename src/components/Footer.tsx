@@ -109,15 +109,10 @@ export default function Footer() {
         </div>
 
         {/* Developer Credit Placement and Copyright */}
-        <div className="pt-8 border-t border-zinc-800 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-8 border-t border-zinc-900 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="font-mono text-xs text-zinc-500 tracking-wider">
             © 2025 나만의 영양. Developed by 이희선 (개인/프리랜서). All rights reserved.
           </p>
-          <div className="flex gap-4 text-xs text-zinc-600 font-medium">
-            <span>D2C PREM-CORP PARTNERS</span>
-            <span>•</span>
-            <span>SECURITY SSL SHIELDED</span>
-          </div>
         </div>
 
       </div>

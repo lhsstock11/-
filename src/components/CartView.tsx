@@ -124,11 +124,15 @@ export default function CartView({
                             alt={product.name}
                             className="h-full w-full object-cover"
                             referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=200";
+                            }}
                           />
                         </div>
                         <div className="text-left">
                           <span className="text-[10px] text-[#FF7A00] font-black uppercase tracking-tight block">
-                            FOREST D2C RECURRING
+                            맞춤 정기구독
                           </span>
                           <h4 className="font-extrabold text-[#0F5132] text-xs sm:text-sm leading-snug">
                             {product.name}
@@ -219,6 +223,10 @@ export default function CartView({
                             alt={product.name}
                             className="h-full w-full object-cover"
                             referrerPolicy="no-referrer"
+                            onError={(e) => {
+                              e.currentTarget.onerror = null;
+                              e.currentTarget.src = "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?auto=format&fit=crop&q=80&w=200";
+                            }}
                           />
                         </div>
                         <div className="text-left">

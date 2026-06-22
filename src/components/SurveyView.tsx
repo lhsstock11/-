@@ -193,7 +193,7 @@ export default function SurveyView({ onCompleteSurvey, userName }: SurveyViewPro
                             : "bg-white border border-zinc-200 text-zinc-600 hover:bg-zinc-50"
                         }`}
                       >
-                        여성 (이희선 님 권장)
+                        여성 (일반)
                       </button>
                       <button
                         onClick={() => setGender("male")}
