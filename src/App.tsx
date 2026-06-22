@@ -22,6 +22,7 @@ export default function App() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<"card" | "toss">("card");
 
   // 1. Load initial user states with fallback matching 이희선
   const [userState, setUserState] = useState<UserState>(() => {
@@ -252,12 +253,13 @@ export default function App() {
   };
 
   // 7. Simulated checkout trigger
-  const handleProceedToCheckout = () => {
+  const handleProceedToCheckout = (method: "card" | "toss" = "card") => {
     if (!userState.isLoggedIn) {
       showToast("비회원 주문 배송 저지를 위해 로그인이 먼저 필요합니다.", "warning");
       setAuthModalOpen(true);
       return;
     }
+    setSelectedPaymentMethod(method);
     setCurrentView("checkout");
   };
 
@@ -400,6 +402,7 @@ export default function App() {
             userEmail={userState.email}
             onOrderCompleted={handleOrderCompleted}
             setCurrentView={(view) => setCurrentView(view)}
+            defaultPaymentMethod={selectedPaymentMethod}
           />
         )}
 

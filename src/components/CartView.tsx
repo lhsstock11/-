@@ -7,7 +7,7 @@ interface CartViewProps {
   onUpdateQuantity: (id: string, quantity: number) => void;
   onRemoveItem: (id: string) => void;
   onUpdateCycle: (id: string, cycle: number) => void;
-  onProceedToCheckout: () => void;
+  onProceedToCheckout: (method?: "card" | "toss") => void;
   setCurrentView: (view: "home" | "shop" | "survey" | "cart" | "mypage" | "result") => void;
 }
 
@@ -336,14 +336,26 @@ export default function CartView({
             </div>
 
             {/* CTA action button to proceed to payment */}
-            <button
-              onClick={onProceedToCheckout}
-              id="proceed-checkout-btn"
-              className="w-full flex items-center justify-center gap-2 py-4 bg-[#0F5132] hover:bg-[#0b3d25] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg transition-all cursor-pointer min-h-[44px] active:scale-95 text-center"
-            >
-              가상 안전 결제 완료하기
-              <ArrowRight className="h-4.5 w-4.5" />
-            </button>
+            <div className="space-y-2">
+              <button
+                onClick={() => onProceedToCheckout("card")}
+                id="proceed-checkout-btn"
+                className="w-full flex items-center justify-center gap-2 py-4 bg-[#0F5132] hover:bg-[#0b3d25] text-white font-[#FF7A00] font-black text-xs sm:text-sm rounded-xl shadow-lg transition-all cursor-pointer min-h-[44px] active:scale-95 text-center"
+              >
+                가상 안전 결제 완료하기
+                <ArrowRight className="h-4.5 w-4.5" />
+              </button>
+
+              <button
+                onClick={() => onProceedToCheckout("toss")}
+                id="proceed-toss-checkout-btn"
+                className="w-full flex items-center justify-center gap-2 py-4 bg-[#0050FF] hover:bg-[#0040D0] text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all cursor-pointer min-h-[44px] active:scale-95 text-center"
+              >
+                <span className="bg-white text-[#0050FF] font-extrabold text-[9px] px-1.5 py-0.5 rounded mr-1">Toss</span>
+                토스페이먼츠 간편결제
+                <ArrowRight className="h-4.5 w-4.5" />
+              </button>
+            </div>
           </div>
 
           <div className="text-center p-2">
